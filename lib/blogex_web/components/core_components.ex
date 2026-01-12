@@ -59,7 +59,7 @@ defmodule BlogexWeb.CoreComponents do
   def navbar(assigns) do
     ~H"""
     <div class="navbar bg-neutral text-neutral-content">
-      <button class="btn btn-ghost text-xl">daisyUI</button>
+      <button phx-click={JS.navigate(~p"/posts")} class="btn btn-ghost text-xl">daisyUI</button>
       <.navbar_actions current_scope={@current_scope} />
     </div>
     """
