@@ -7,7 +7,8 @@ defmodule BlogexWeb.PostLive.Show do
     post = %Post{
       id: String.to_integer(post_id),
       title: "Post #{post_id}",
-      content: "This is the body of post #{post_id}."
+      content:
+        "This is the body of post #{post_id}.lkjaçslkdfjçaslkfjaslçfjkalçdjfkaçlskdfjasçldfkjçljaslçdjçfasjdlfjasdlçfasçldfjsaçkdflkjaçslkdfjçaslkfjaslçfjkalçdjfk"
     }
 
     socket =
@@ -20,9 +21,12 @@ defmodule BlogexWeb.PostLive.Show do
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
-      <div>
+      <.header>
         {@post.title}
-      </div>
+      </.header>
+      <article class="w-full max-w-3xl prose prose-lg mx-auto break-words">
+        <p>{@post.content}</p>
+      </article>
     </Layouts.app>
     """
   end
