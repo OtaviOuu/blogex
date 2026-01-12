@@ -2,13 +2,10 @@ defmodule BlogexWeb.PostLive.Index do
   use BlogexWeb, :live_view
 
   alias Blogex.Posts.Post
+  alias Blogex.Posts
 
   def mount(_params, _session, socket) do
-    posts = [
-      %Post{id: 1, title: "First Post", content: "This is the body of the first post."},
-      %Post{id: 2, title: "Second Post", content: "This is the body of the second post."},
-      %Post{id: 3, title: "Third Post", content: "This is the body of the third post."}
-    ]
+    posts = Posts.list_posts()
 
     socket =
       socket

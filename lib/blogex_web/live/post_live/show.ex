@@ -2,20 +2,10 @@ defmodule BlogexWeb.PostLive.Show do
   use BlogexWeb, :live_view
 
   alias Blogex.Posts.Post
+  alias Blogex.Posts
 
   def mount(%{"post_id" => post_id}, _session, socket) do
-    post = %Post{
-      id: String.to_integer(post_id),
-      title: "Post #{post_id}",
-      content:
-        "This is the body of post #{post_id}.lkjaçslkdfjçaslkfjaslçfjkalçdjfkaçlskdfjasçldfkjçljaslçdjçfasjdlfjasdlçfasçldfjsaçkdflkjaçslkdfjçaslkfjaslçfjkalçdjfk"
-    }
-
-    socket =
-      socket
-      |> assign(:post, post)
-
-    {:ok, socket}
+    {:ok, assign_post(socket, post_id)}
   end
 
   def render(assigns) do
@@ -29,5 +19,17 @@ defmodule BlogexWeb.PostLive.Show do
       </article>
     </Layouts.app>
     """
+  end
+
+  defp assign_post(socket, post_id) do
+    case Posts.get_post(post_id) do
+      nil ->
+        socket
+        |> put_flash(:error, "Post not found")
+        |> push_navigate(to: "/")
+
+      %Post{} = post ->
+        assign(socket, :post, post)
+    end
   end
 end
