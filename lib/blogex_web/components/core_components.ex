@@ -56,19 +56,6 @@ defmodule BlogexWeb.CoreComponents do
     """
   end
 
-  def blog_post_card(assigns) do
-    ~H"""
-    <div class="card shadow-sm  w-full hover:bg-neutral-focus cursor-pointer">
-      <div class="card-body">
-        <h2 class="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are title and actions parts
-        </p>
-      </div>
-    </div>
-    """
-  end
-
   def navbar(assigns) do
     ~H"""
     <div class="navbar bg-neutral text-neutral-content">
