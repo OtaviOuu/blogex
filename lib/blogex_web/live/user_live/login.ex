@@ -51,7 +51,7 @@ defmodule BlogexWeb.UserLive.Login do
             required
             phx-mounted={JS.focus()}
           />
-          <.button class="btn btn-primary w-full">
+          <.button class="btn btn-neural w-full">
             Log in with email <span aria-hidden="true">→</span>
           </.button>
         </.form>
@@ -80,10 +80,10 @@ defmodule BlogexWeb.UserLive.Login do
             label="Password"
             autocomplete="current-password"
           />
-          <.button class="btn btn-primary w-full" name={@form[:remember_me].name} value="true">
+          <.button class="btn btn-neural w-full" name={@form[:remember_me].name} value="true">
             Log in and stay logged in <span aria-hidden="true">→</span>
           </.button>
-          <.button class="btn btn-primary btn-soft w-full mt-2">
+          <.button class="btn btn-neural btn-soft w-full mt-2">
             Log in only this time
           </.button>
         </.form>
