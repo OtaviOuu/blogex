@@ -24,7 +24,6 @@ defmodule BlogexWeb.UserLive.Login do
             </:subtitle>
           </.header>
         </div>
-
         <div :if={local_mail_adapter?()} class="alert alert-info">
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
@@ -87,6 +86,12 @@ defmodule BlogexWeb.UserLive.Login do
             Log in only this time
           </.button>
         </.form>
+
+        <div class="divider">or</div>
+
+        <div class="flex justify-center space-x-4 w-full ">
+          <.google_sign_in_button />
+        </div>
       </div>
     </Layouts.app>
     """

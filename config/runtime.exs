@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :blogex, BlogexWeb.Endpoint, server: true
 end
 
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+
 config :blogex, BlogexWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 

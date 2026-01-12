@@ -17,6 +17,12 @@ defmodule BlogexWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/auth", BlogexWeb do
+    pipe_through :browser
+    get "/:provider", OauthController, :request
+    get "/:provider/callback", OauthController, :callback
+  end
+
   scope "/", BlogexWeb do
     pipe_through :browser
 

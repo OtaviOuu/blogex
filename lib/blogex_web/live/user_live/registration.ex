@@ -36,6 +36,12 @@ defmodule BlogexWeb.UserLive.Registration do
             Create an account
           </.button>
         </.form>
+
+        <div class="divider">or</div>
+
+        <div class="flex justify-center space-x-4 w-full ">
+          <.google_sign_in_button />
+        </div>
       </div>
     </Layouts.app>
     """
