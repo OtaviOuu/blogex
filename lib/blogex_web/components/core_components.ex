@@ -27,9 +27,34 @@ defmodule BlogexWeb.CoreComponents do
 
   """
   use Phoenix.Component
+  use BlogexWeb, :verified_routes
   use Gettext, backend: BlogexWeb.Gettext
 
   alias Phoenix.LiveView.JS
+
+  attr :current_scope, :any, doc: "the current logged-in scope"
+
+  def navbar_actions(assigns) do
+    ~H"""
+    <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+      <%= if @current_scope do %>
+        <li>
+          <.link href={~p"/users/settings"}>Settings</.link>
+        </li>
+        <li>
+          <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+        </li>
+      <% else %>
+        <li>
+          <.link href={~p"/users/register"}>Register</.link>
+        </li>
+        <li>
+          <.link href={~p"/users/log-in"}>Log in</.link>
+        </li>
+      <% end %>
+    </ul>
+    """
+  end
 
   def blog_post_card(assigns) do
     ~H"""
@@ -48,6 +73,7 @@ defmodule BlogexWeb.CoreComponents do
     ~H"""
     <div class="navbar bg-neutral text-neutral-content">
       <button class="btn btn-ghost text-xl">daisyUI</button>
+      <.navbar_actions current_scope={@current_scope} />
     </div>
     """
   end

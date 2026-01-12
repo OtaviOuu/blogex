@@ -11,13 +11,13 @@ defmodule Blogex.Posts.Post do
     field :title, :string
     field :content, :string
 
-    belongs_to :author, User, type: :binary_id
+    belongs_to :author, User
 
     timestamps()
   end
 
   def changeset(attrs) do
-    %__MODULE__{}`
+    %__MODULE__{}
     |> cast(attrs, @fields)
     |> validate_required(@fields)
   end

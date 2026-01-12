@@ -6,7 +6,7 @@ defmodule Blogex.Repo.Migrations.CreatePostsContextTables do
       add :id, :binary_id, primary_key: true
       add :title, :string, null: false
       add :content, :text, null: false
-      add :author_id, references(:users, type: :binary_id), null: false
+      add :author_id, references(:users), null: false
 
       timestamps()
     end

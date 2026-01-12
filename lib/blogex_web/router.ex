@@ -20,7 +20,10 @@ defmodule BlogexWeb.Router do
   scope "/", BlogexWeb do
     pipe_through :browser
 
-    live "/", Index, :home
+    live_session :default,
+      on_mount: [{BlogexWeb.UserAuth, :mount_current_scope}] do
+      live "/", Index, :home
+    end
   end
 
   # Other scopes may use custom stacks.
