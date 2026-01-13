@@ -8,9 +8,12 @@ defmodule Blogex.Posts do
 
   def authorize(:show_post, _, _), do: :ok
 
-  def create_post(attrs) do
-    Post.changeset(attrs)
-    |> Repo.insert()
+  def authorize(:publish_post, _, _), do: :ok
+
+  def publish_post(attrs, scope) do
+    with :ok <- Bodyguard.permit(__MODULE__, :publish_post, scope) do
+      UseCases.PublishPost.call(attrs, scope)
+    end
   end
 
   def show_post(id, scope) do
