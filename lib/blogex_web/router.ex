@@ -32,6 +32,8 @@ defmodule BlogexWeb.Router do
       on_mount: [{BlogexWeb.UserAuth, :mount_current_scope}] do
       scope "/posts" do
         live "/", PostLive.Index, :index
+        live "/new", PostLive.New, :new
+
         live "/:post_id", PostLive.Show, :show
       end
     end
