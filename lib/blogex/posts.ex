@@ -27,4 +27,8 @@ defmodule Blogex.Posts do
       UseCases.ListAllPosts.call()
     end
   end
+
+  def post_changeset(attrs, scope) do
+    Post.changeset(attrs, scope)
+  end
 end
