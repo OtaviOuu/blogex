@@ -60,10 +60,24 @@ defmodule BlogexWeb.CoreComponents do
 
   attr :current_scope, :any, doc: "the current logged-in scope"
 
+  def navbar_admin_actions(assigns) do
+    ~H"""
+    <li :if={@current_scope.user && @current_scope.user.is_admin?}>
+      <.link href={~p"/posts/new"}>Criar post</.link>
+    </li>
+    """
+  end
+
+  attr :current_scope, :any, doc: "the current logged-in scope"
+
   def navbar_actions(assigns) do
     ~H"""
     <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+      <li>
+        <.link href={~p"/posts"}>Posts</.link>
+      </li>
       <%= if @current_scope do %>
+        <.navbar_admin_actions current_scope={@current_scope} />
         <li>
           <.link href={~p"/users/settings"}>Settings</.link>
         </li>
