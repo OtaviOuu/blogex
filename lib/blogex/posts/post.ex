@@ -4,7 +4,7 @@ defmodule Blogex.Posts.Post do
 
   alias Blogex.Accounts.User
 
-  @fields [:title, :content]
+  @fields [:title, :content, :author_id]
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "posts" do
