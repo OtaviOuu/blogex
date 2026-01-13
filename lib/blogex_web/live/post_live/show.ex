@@ -22,14 +22,19 @@ defmodule BlogexWeb.PostLive.Show do
   end
 
   defp assign_post(socket, post_id) do
-    case Posts.get_post(post_id) do
-      nil ->
-        socket
-        |> put_flash(:error, "Post not found")
-        |> push_navigate(to: "/")
+    scope = socket.assigns.current_scope
 
-      %Post{} = post ->
+    case Posts.show_post(post_id, scope) do
+      {:ok, post} when is_nil(post) ->
+        socket
+
+      {:ok, post} ->
         assign(socket, :post, post)
+
+      {:error, error} ->
+        socket
+        |> put_flash(:error, "Post not found.")
+        |> push_redirect(to: Routes.post_index_path(socket, :index))
     end
   end
 end

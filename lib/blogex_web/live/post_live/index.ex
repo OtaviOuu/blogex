@@ -5,11 +5,9 @@ defmodule BlogexWeb.PostLive.Index do
   alias Blogex.Posts
 
   def mount(_params, _session, socket) do
-    posts = Posts.list_posts()
-
     socket =
       socket
-      |> assign(:posts, posts)
+      |> assign_posts
 
     {:ok, socket}
   end
@@ -17,9 +15,29 @@ defmodule BlogexWeb.PostLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
-      <.blog_posts_list posts={@posts} />
+      <%= if @posts != [] do %>
+        <.blog_posts_list posts={@posts} />
+      <% else %>
+        <div class="text-center text-lg font-medium">
+          sem posts pra vc
+        </div>
+      <% end %>
     </Layouts.app>
     """
+  end
+
+  defp assign_posts(socket) do
+    scope = socket.assigns.current_scope
+
+    case Posts.list_posts(scope) do
+      {:ok, posts} ->
+        assign(socket, :posts, posts)
+
+      {:error, reason} ->
+        socket
+        |> put_flash(:error, "Failed to load posts: #{reason}")
+        |> assign(:posts, [])
+    end
   end
 
   def blog_posts_list(assigns) do

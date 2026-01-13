@@ -1,18 +1,21 @@
 defmodule Blogex.Posts do
-  alias Blogex.Posts.Post
+  @behaviour Bodyguard.Policy
 
-  alias Blogex.Repo
+  alias Blogex.Posts.UseCases
 
-  def get_post(id) do
-    with {:ok, uuid} <- Ecto.UUID.cast(id) do
-      Repo.get_by(Post, id: uuid)
-    else
-      _ -> nil
+  def authorize(:list_posts, _, _), do: :ok
+
+  def authorize(:show_post, _, _), do: :ok
+
+  def show_post(id, scope) do
+    with :ok <- Bodyguard.permit(__MODULE__, :show_post, scope) do
+      UseCases.ShowPost.call(id)
     end
   end
 
-  def list_posts do
-    Post
-    |> Repo.all()
+  def list_posts(scope) do
+    with :ok <- Bodyguard.permit(__MODULE__, :list_posts, scope) do
+      UseCases.ListAllPosts.call()
+    end
   end
 end

@@ -68,7 +68,8 @@ defmodule Blogex.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:ueberauth, "~> 0.10.8"},
-      {:ueberauth_google, "~> 0.12.1"}
+      {:ueberauth_google, "~> 0.12.1"},
+      {:bodyguard, "~> 2.4"}
     ]
   end
 
