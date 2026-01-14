@@ -3,6 +3,7 @@ defmodule BlogexWeb.PostLive.Show do
 
   alias Blogex.Posts.Post
   alias Blogex.Posts
+  alias Ecto.Changeset
 
   def mount(%{"post_id" => post_id}, _session, socket) do
     {:ok, assign_post(socket, post_id)}
@@ -17,6 +18,14 @@ defmodule BlogexWeb.PostLive.Show do
       <article class="w-full max-w-3xl prose prose-lg mx-auto break-words">
         <p>{@post.content}</p>
       </article>
+      <div class="flex p-6 gap-4">
+        <.button phx-click="do_like" class="btn btn-neutral btn-outline">
+          <.icon name="hero-hand-thumb-up" /> {@post.likes_count}
+        </.button>
+        <.button class="btn btn-neutral btn-outline">
+          <.icon name="hero-hand-thumb-down" />
+        </.button>
+      </div>
     </Layouts.app>
     """
   end
@@ -32,6 +41,34 @@ defmodule BlogexWeb.PostLive.Show do
         socket
         |> put_flash(:error, "Post not found.")
         |> push_navigate(to: ~p"/posts")
+    end
+  end
+
+  def handle_event("do_like", _params, socket) do
+    scope = socket.assigns.current_scope
+    post = socket.assigns.post
+
+    case Posts.like_post(post.id, scope) do
+      {:ok, %Posts.Like{} = like} ->
+        socket =
+          socket
+          |> update(:post, fn post -> Map.update(post, :likes_count, 0, &(&1 + 1)) end)
+
+        {:noreply, socket}
+
+      {:error, %Changeset{} = like_changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(
+           :error,
+           "Unable to like the post. Please try again: #{inspect(like_changeset.errors)}"
+         )}
+
+      {:error, :not_authenticated} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "You need to be logged in to like posts.")
+         |> push_navigate(to: ~p"/users/log-in")}
     end
   end
 end

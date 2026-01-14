@@ -3,12 +3,15 @@ defmodule Blogex.Posts do
 
   alias Blogex.Posts.UseCases
   alias Blogex.Posts.Post
-  alias Blogex.Repo
+
   def authorize(:list_posts, _, _), do: :ok
 
   def authorize(:show_post, _, _), do: :ok
 
   def authorize(:publish_post, _, _), do: :ok
+
+  def authorize(:like_post, nil, _), do: {:error, :not_authenticated}
+  def authorize(:like_post, _, _), do: :ok
 
   def publish_post(attrs, scope) do
     with :ok <- Bodyguard.permit(__MODULE__, :publish_post, scope) do
@@ -25,6 +28,12 @@ defmodule Blogex.Posts do
   def list_posts(scope) do
     with :ok <- Bodyguard.permit(__MODULE__, :list_posts, scope) do
       UseCases.ListAllPosts.call()
+    end
+  end
+
+  def like_post(post, scope) do
+    with :ok <- Bodyguard.permit(__MODULE__, :like_post, scope, post) do
+      UseCases.LikePost.call(post, scope)
     end
   end
 

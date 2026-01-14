@@ -11,21 +11,14 @@ defmodule Blogex.Repo.Migrations.CreatePostsContextTables do
       timestamps()
     end
 
-    create table(:tags) do
-      add :name, :string, null: false
-
-      timestamps()
-    end
-
-    create unique_index(:tags, [:name])
-
-    create table(:post_tags, primary_key: false) do
+    create table(:likes, primary_key: false) do
+      add :id, :binary_id, primary_key: true
       add :post_id, references(:posts, type: :binary_id), null: false
-      add :tag_id, references(:tags), null: false
+      add :user_id, references(:users, type: :integer), null: false
 
       timestamps()
     end
 
-    create unique_index(:post_tags, [:post_id, :tag_id])
+    create unique_index(:likes, [:user_id, :post_id], name: :likes_user_id_post_id_index)
   end
 end
