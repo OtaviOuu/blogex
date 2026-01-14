@@ -39,10 +39,11 @@ defmodule BlogexWeb.Router do
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", BlogexWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", BlogexWeb do
+    pipe_through :api
+
+    get "/posts", PostsController, :list_posts
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:blogex, :dev_routes) do
