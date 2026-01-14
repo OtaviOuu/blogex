@@ -74,7 +74,7 @@ defmodule BlogexWeb.CoreComponents do
     ~H"""
     <ul class="menu menu-horizontal w-full relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
       <li>
-        <.link href={~p"/posts"}>Posts</.link>
+        <.link navigate={~p"/posts"}>Posts</.link>
       </li>
       <%= if @current_scope do %>
         <.navbar_admin_actions current_scope={@current_scope} />
